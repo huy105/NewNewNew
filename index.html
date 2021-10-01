@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Candlestick</title>
+    <meta content="utf-8" http-equiv="encoding">
+    <!-- <link rel="stylesheet" href="stylesheet.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src=".app/view.js"></script>></script> -->
+
+</head>
+<body>
+    <h1>Pug - node template engine</h1>
+        <div id="container" class="col">
+            <p>Nhập vào lương tháng và tính thuế.</p>
+            <form id = "form">
+                <label for="nguoiPhuThuoc">Số người phụ thuộc:</label>
+                <input type="number" id="nguoiPhuThuoc" name="NguoiPhuThuoc"><br><br>
+                
+                <label for="thangMot">Lương tháng một:</label>
+                <input type="number" id="thangMot" name="ThangMot"><br><br>
+                
+                <label for="ThangHai">Lương tháng hai:</label>
+                <input type="number" id="ThangHai" name="ThangHai"><br><br>
+                
+                <label for="ThangBa">Lương tháng ba:</label>
+                <input type="number" id="ThangBa" name="ThangBa"><br><br>
+                
+                <label for="ThangBon">Lương tháng bốn:</label>
+                <input type="number" id="ThangBon" name="ThangBon"><br><br>
+                
+                <label for="ThangNam">Lương tháng năm:</label>
+                <input type="number" id="ThangNam" name="ThangNam"><br><br>
+                
+                <label for="ThangSau">Lương tháng sáu:</label>
+                <input type="number" id="ThangSau" name="ThangSau"><br><br>
+                
+                <label for="ThangBay">Lương tháng bảy:</label>
+                <input type="number" id="ThangBay" name="ThangBay"><br><br>
+                
+                <label for="ThangTam">Lương tháng tám:</label>
+                <input type="number" id="ThangTam" name="ThangTam"><br><br>
+                
+                <label for="ThangChin">Lương tháng chín:</label>
+                <input type="number" id="ThangChin" name="ThangChin"><br><br>
+                
+                <label for="ThangMuoi">Lương tháng mười:</label>
+                <input type="number" id="ThangMuoi" name="ThangMuoi"><br><br>
+                
+                <label for="ThangMuoiMot">Lương tháng mười một:</label>
+                <input type="number" id="ThangMuoiMot" name="ThangMuoiMot"><br><br>
+
+                <label for="ThangMuoiHai">Lương tháng mười hai:</label>
+                <input type="number" id="ThangMuoiHai" name="ThangMuoiHai"><br><br>
+                <button type="submit">Gửi kết quả</button>
+            </form>
+        </div>
+        <div>
+            <p id = "ketQua">So thue phai nop theo nam la: </p>
+        </div>
+</body>
+
+
+
+
+
+
+<script>
+    const $form = $('#form')
+
+    $form.on('submit', submitHandler)
+    function submitHandler (e) {
+
+    console.log("executing");
+    e.preventDefault()
+    $.ajax({
+        url: '/getSalary',
+        type:'POST',
+        data: $form.serialize()
+    }).done( function(data) {
+        $.get('/getThuNhap', function(thuNhap) {
+            $.get('/getThueNop', function(thueNop) {
+                console.log("Load was performed." );
+                console.log(thuNhap);
+                console.log(thueNop);
+
+                var table = $("<table><tr><th>Tháng</th><th>Thu Nhập</th><th>Thuế</th></tr>");
+                    table.append("<tr><td>Tháng 1</td><td>"  + thuNhap["ThangMot"] + "</td><td>"  + thueNop["ThangMot"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 2</td><td>"  + thuNhap["ThangHai"] + "</td><td>"  + thueNop["ThangHai"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 3</td><td>"  + thuNhap["ThangBa"] + "</td><td>"  + thueNop["ThangBa"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 4</td><td>"  + thuNhap["ThangBon"] + "</td><td>"  + thueNop["ThangBon"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 5</td><td>"  + thuNhap["ThangNam"] + "</td><td>"  + thueNop["ThangNam"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 6</td><td>"  + thuNhap["ThangSau"] + "</td><td>"  + thueNop["ThangSau"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 7</td><td>"  + thuNhap["ThangBay"] + "</td><td>"  + thueNop["ThangBay"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 8</td><td>"  + thuNhap["ThangTam"] + "</td><td>"  + thueNop["ThangTam"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 9</td><td>"  + thuNhap["ThangChin"] + "</td><td>"  + thueNop["ThangChin"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 10</td><td>"  + thuNhap["ThangMuoi"] + "</td><td>"  + thueNop["ThangMuoi"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 11</td><td>"  + thuNhap["ThangMuoiMot"] + "</td><td>"  + thueNop["ThangMuoiMot"] + "</td></tr>");
+                    table.append("<tr><td>Tháng 12</td><td>"  + thuNhap["ThangMuoiHai"] + "</td><td>"  + thueNop["ThangMuoiHai"] + "</td></tr>");
+
+                $("#ketQua").html(table);
+
+            });
+        });
+    })
+    }
+
+    
+</script>
+</html>
