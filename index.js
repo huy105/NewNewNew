@@ -1,11 +1,10 @@
 var express = require('express')
 const path = require('path');
 var tools = require('./tools.js');
-const knex = require('knex');
-const config = require('./knexfile.js');
-const db = knex(config.development);
+const knex = require('knex');              // import knex
+const config = require('./knexfile.js'); // config cho database
+const db = knex(config.development);        // config.development lấy database theo config
 var cors = require('cors')
-const Flatted = require('flatted');
 
 
 var port = 3000;
@@ -119,15 +118,20 @@ app.get('/deleteSalary/:id', function (req, res) {
     var idRequest = req.params.id;
     console.log(idRequest)
     
-    db('BangLuong')
-    .where("id",idRequest)
-    .del();
-    db('BangThue')
-    .where("id",idRequest)
-    .del();
     db('ThongTin')
     .where("id",idRequest)
-    .del();
+    .del()
+    .then(() => console.log("Deleted"))
+
+    db('BangThue')
+    .where("TTidThue",idRequest)
+    .del()
+    .then(() => console.log("Deleted"))
+
+    db('BangLuong')
+    .where("TTidLuong",idRequest)
+    .del()
+    .then(() => console.log("Deleted"))
 })
 
 // hàm lấy tất thông tin
