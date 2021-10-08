@@ -17,18 +17,18 @@ const myJSON = '{"name":"John", "age":30, "car":null}';
 var data = {
     "id": 12,
     'Nam':'2020',
-    "thang1": 50000000,
-    "thang2": 50000000,
-    "thang3": 50000000,
-    "thang4": 50000000,
-    "thang5": 50000000,
-    "thang6": 50000000,
-    "thang7": 50000000,
-    "thang8": 16000000,
-    "thang9": 16000000,
-    "thang10": 16000000,
-    "thang11": 16000000,
-    "thang12": 16000000,
+    "thang1": 500000000,
+    "thang2": 500000000,
+    "thang3": 500000000,
+    "thang4": 500000000,
+    "thang5": 500000000,
+    "thang6": 500000000,
+    "thang7": 500000000,
+    "thang8": 160000000,
+    "thang9": 160000000,
+    "thang10": 160000000,
+    "thang11": 160000000,
+    "thang12": 160000000,
     "thu_nhap_mien_thue": 1000000,
     "nguoi_phu_thuoc": 2,
     "tu_thien": 500000,
@@ -57,7 +57,7 @@ var thueNop = {
 
 function calTaxAnual(tienChiuThue) {
     
-    var rankTax = [60000000,120000000,216000000,384000000,624000000, 960000000, 1000000000]
+    var rankTax = [60000000,120000000,216000000,384000000,624000000, 960000000, 99999999999]
     var rateTax = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35];
     var costPercent = [0, 250000, 7500000, 1650000, 3250000, 5850000, 9850000];
     var rate = 0;
@@ -77,7 +77,7 @@ function calTaxAnual(tienChiuThue) {
 
 function calTax(tienChiuThue) {
     
-    var rankTax = [5000000,10000000,18000000,32000000,52000000, 8000000, 10000000]
+    var rankTax = [5000000,10000000,18000000,32000000,52000000, 8000000, 9999999999999]
     var rateTax = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35];
     var costPercent = [0, 250000, 7500000, 1650000, 3250000, 5850000, 9850000];
     var rate = 0;
@@ -135,6 +135,9 @@ function calObjTax(data, target, calTax, calTaxAnual) {
     delete data.thu_nhap_mien_thue;              // xóa dự liệu BHXH
     delete data.id;              // xóa dự liệu BHXH
     delete data.Nam;              // xóa dự liệu BHXH
+    delete target.TTidThue                           
+    delete data.TTidLuong                           // gán lại để thuật tiện về sau cho vào obj
+
 
 
     for(var x in data, target){             //data là dự liệu lương, target là obj nộp thuế
@@ -162,30 +165,53 @@ function calObjTax(data, target, calTax, calTaxAnual) {
     } else {
         tongThueNopNam = calTaxAnual(tongTNCTCaNam);
     }
+
+    target["tongThueNopNam"] = tongThueNopNam;
+    target["tongThueNopThang"] = tongThueNopThang;
+    
                      
-    return target, data, tongThueNopNam, tongThueNopThang;  //target là thuế nộp, data là dữ liệu thu nhập từng tháng
+    return target, data;  //target là thuế nộp, data là dữ liệu thu nhập từng tháng
 }
 
 
 
-var tongThueCaNam = 0;
-var tongThueNopThang= 0;
+// var tongThueCaNam = 0;
+// var tongThueNopThang= 0;
 
 
 // thueNop là obj theo từng tháng, myObj là dự liệu lương
 // thueNop, data, tongThueCaNam, tongThueNopThang = calObjTax(data, thueNop, calTax, calTaxAnual)  
                     
 
-// for (const x in myObj, thueNop) {
-//     console.log("Luong thang: %d",myObj[x]);
-//     console.log("thue nop: %d",thueNop[x]);
-// }
-// console.log("Tong thue ca nam: %d", tongThueCaNam);
+// // for (const x in myObj, thueNop) {
+// //     console.log("Luong thang: %d",myObj[x]);
+// //     console.log("thue nop: %d",thueNop[x]);
+// // }
+// // console.log("Tong thue ca nam: %d", tongThueCaNam);
 
 // console.log(thueNop);
 // console.log(data);
 // console.log(tongThueCaNam);
 // console.log(tongThueNopThang);
 
+// function plus(data, data1) {
+
+// console.log(b1);    data+=1
+//     data1+=1
+//     return data, data1;
+// }
+
+// var a = 1;
+// var b = 2;
+
+// console.log(a);
+// console.log(b);
+
+// var a1 = 0;
+// var b1 = 0;
+
+// a1, b1 = plus(a, b);
+
+// console.log(a1);
 
 

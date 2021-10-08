@@ -33,7 +33,7 @@ var thueNop = {
     "thang12": 0,
 }
 
-var tongThueNopNam = 0;
+var tongThueNopNam = 10;
 var tongThueNopThang = 0;
 var Nam;
 
@@ -88,13 +88,12 @@ app.get('/getThuNhap/:id', function (req, res) {
     console.log(idRequest)
     
     db('BangLuong')
-    .where("idBangLuong",idRequest)
+    .where("TTidLuong",idRequest)
     .select("thang1","thang2",'thang3',"thang4","thang5",
     'thang6', "thang7","thang8",'thang9',"thang10","thang11",'thang12')
-    .then(data => 
-        console.log(data)
-    );
-    res.send(data);
+    .then((data) => 
+        res.send(data)
+    )
 })
 
 // thông tin thuế của lần tính của id truyền vào
@@ -172,20 +171,27 @@ app.post('/getSalary', function (req, res) {
         }
     }
 
-    // var tongThueNopNam = 0;
+    // let tongThueNopNam = 1;
     // var tongThueNopThang = 0;
 
 
-    thueNop, data, tongThueNopNam, tongThueNopThang = tools.calObjTax(data, thueNop, tools.calTax, tools.calTaxAnual);  //data la
+    thueNop, data = tools.calObjTax(data, thueNop, tools.calTax, tools.calTaxAnual);  //data la
+
+    // thueNop, data, tongThueNopThang, tongThueNopNam = tools.calObjTax(data, thueNop, tools.calTax, tools.calTaxAnual);  //data la
+    tongThueNopNam = thueNop.tongThueNopNam
+    tongThueNopThang = thueNop.tongThueNopThang
+
+    delete thueNop.tongThueNopNam
+    delete thueNop.tongThueNopThang
 
     // Thêm tổng thuế nộp cả năm vào trong obj thông tin để có thể insert vào table
     thongTin['ThueCaNam'] = tongThueNopNam; 
     thongTin['ThueDaNop'] = tongThueNopThang;             // Tổng thuế đã nộp 12 tháng        
 
-    console.log(data);
-    console.log(thueNop);
+    // console.log(data);
+    // console.log(thueNop);
 
-    console.log(thongTin);
+    // console.log(thongTin);
 
     
     
@@ -195,8 +201,6 @@ app.post('/getSalary', function (req, res) {
         .finally(() => {
             // db.destroy();
         });
-
-
 
 
     // insert vào bảng lương đóng
